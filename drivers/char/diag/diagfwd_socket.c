@@ -466,7 +466,7 @@ static void socket_open_client(struct diag_socket_info *info)
 	if (!info || info->port_type != PORT_TYPE_CLIENT)
 		return;
 
-	ret = sock_create(AF_QIPCRTR, SOCK_DGRAM, PF_QIPCRTR, &info->hdl);
+	ret = sock_create_kern(current->nsproxy->net_ns,AF_QIPCRTR, SOCK_DGRAM, PF_QIPCRTR, &info->hdl);
 	if (ret < 0 || !info->hdl) {
 		pr_err("diag: In %s, socket not initialized for %s\n", __func__,
 		       info->name);
@@ -499,7 +499,7 @@ static void socket_open_server(struct diag_socket_info *info)
 	if (!info || info->port_type != PORT_TYPE_SERVER)
 		return;
 
-	ret = sock_create(AF_QIPCRTR, SOCK_DGRAM, PF_QIPCRTR, &info->hdl);
+	ret = sock_create_kern(current->nsproxy->net_ns, AF_QIPCRTR, SOCK_DGRAM, PF_QIPCRTR, &info->hdl);
 	if (ret < 0 || !info->hdl) {
 		pr_err("diag: In %s, socket not initialized for %s\n", __func__,
 		       info->name);
